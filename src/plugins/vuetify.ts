@@ -20,8 +20,7 @@ export default new Vuetify({
                 card: colors.indigo.lighten2,
                 header: colors.indigo.darken3,
                 button: colors.indigo.lighten1,
-                background: colors.shades.black,
-                // background: colors.indigo.lighten5,
+                background: colors.grey.darken4,
                 titleText: colors.shades.black,
                 cardText: colors.shades.black
             }

@@ -1,6 +1,6 @@
 <template>
   <div>
-  <h1 style="text-align:center; padding: 2%; color: black"> Unassigned Requests </h1>
+  <h1 color="titleText" style="text-align:center; padding: 2%"> Unassigned Requests </h1>
   <unassigned />
   </div>
 

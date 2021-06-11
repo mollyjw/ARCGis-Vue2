@@ -6,8 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     
-    darkMode: false,
     leadsArray: [],
+    assignedArray: [],
     unassignedArray: [
       {
         "LeadID": "1",
@@ -73,10 +73,28 @@ export default new Vuex.Store({
         "Processed": null
       },
     ],
+    dealers: [
+      { 
+        dealerId: 1,
+        dealerName: "Forrest Gump"
+      },
+      {
+        dealerId: 2,
+        dealerName: "C. Abe Net"
+      },
+      {
+        dealerId: 3,
+        dealerName: "Josh"
+      }
+    ]
  
   },
   getters: {
-    
+    getOneRequest: (state) => (id: string) => {
+      return state.unassignedArray.filter(obj => {
+        return obj.LeadID === id
+      })[0]
+    }
   },
   mutations: {
   

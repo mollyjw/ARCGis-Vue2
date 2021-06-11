@@ -1,8 +1,15 @@
 <template>
   <v-app-bar app color="header" prominent>
     <img
+    v-if="$vuetify.theme.dark === false"
       alt="WW Logo"
       src="../assets/ScoutLogo.png"
+      style="max-height: 90%; max-width: 40%"
+    />
+    <img
+    v-if="$vuetify.theme.dark"
+      alt="WW Logo"
+      src="../assets/scoutwhite.png"
       style="max-height: 90%; max-width: 40%"
     />
     <v-spacer></v-spacer>
