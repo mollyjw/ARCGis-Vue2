@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     
-
+    darkMode: false,
     leadsArray: [],
     unassignedArray: [
       {
@@ -75,9 +75,14 @@ export default new Vuex.Store({
     ],
  
   },
+  getters: {
+    
+  },
   mutations: {
+  
   },
   actions: {
+    
   },
   modules: {
   }

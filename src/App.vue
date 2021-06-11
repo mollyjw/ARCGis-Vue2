@@ -1,9 +1,11 @@
 <template>
-  <v-app :style="{background: $vuetify.theme.themes.light.background}">
-   <navbar /> 
-    <v-main>
-      <router-view />
-    </v-main>
+  <v-app>
+    <v-sheet color="background" height="100%" width="100%">
+      <navbar />
+      <v-main>
+        <router-view />
+      </v-main>
+    </v-sheet>
   </v-app>
 </template>
 
@@ -15,7 +17,7 @@ export default Vue.extend({
   name: "App",
 
   components: {
-      Navbar
+    Navbar,
   },
 
   data: () => ({

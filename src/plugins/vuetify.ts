@@ -9,10 +9,21 @@ export default new Vuetify({
     theme: {
         themes: {
             light: {
-                primary: colors.yellow.lighten1,
-                secondary: colors.yellow.darken1,
-                accent: colors.lightBlue.lighten3,
-                background: colors.yellow.lighten5                
+                card: colors.blueGrey.darken3,
+                header: colors.yellow.darken1,
+                button: colors.yellow.lighten1,
+                background: colors.yellow.lighten5,
+                titleText: colors.shades.black,
+                cardText: colors.shades.white,
+            },
+            dark: {
+                card: colors.indigo.lighten2,
+                header: colors.indigo.darken3,
+                button: colors.indigo.lighten1,
+                background: colors.shades.black,
+                // background: colors.indigo.lighten5,
+                titleText: colors.shades.black,
+                cardText: colors.shades.black
             }
         }
     }
