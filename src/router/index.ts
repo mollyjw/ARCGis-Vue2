@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
-import RequestDetails from "../views/RequestDetails.vue";
+import LeadDetails from "../views/LeadDetails.vue";
 
 Vue.use(VueRouter);
 
@@ -11,7 +11,7 @@ const routes: Array<RouteConfig> = [
     name: "Home",
     component: Home,
   },
-  { path: "/:id", name: "RequestDetails", component: RequestDetails },
+  { path: "/:id", name: "LeadDetails", component: LeadDetails },
 ];
 
 const router = new VueRouter({

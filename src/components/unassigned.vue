@@ -6,9 +6,9 @@
         <v-col cols="2">{{lead.Retailer == 0 ? "Find a Dealer" : "Become a Dealer"}}</v-col>
         <v-col cols="2">{{lead.ProjectType}}</v-col>
         <v-col cols="2">{{lead.DistributionArea == 0 ? "Not in Area" : "Within Area"}}</v-col>
-        <v-col cols="2">{{formatDate(lead.Created)}}</v-col>
+        <v-col cols="2">{{formatDate(lead.LeadID)}}</v-col>
         <v-col cols="1">
-            <router-link class="text-decoration-none" :to="{name: 'RequestDetails', params: {id: lead.LeadID} }" >
+            <router-link class="text-decoration-none" :to="{name: 'LeadDetails', params: {id: lead.LeadID} }" >
           <v-btn color="button"  >Assign</v-btn>
             </router-link>
         </v-col>
@@ -30,32 +30,13 @@ export default Vue.extend({
     unassignedArray() {
       return store.state.unassignedArray;
     },
+
   },
   methods: {
-      formatDate(stringDate: string) {
-        const d = new Date(Date.parse(stringDate))
-        const hh: number = d.getHours();
-        const m: number = d.getMinutes();
-        let dd = "AM";
-        let mm = "";
-        let h: number = hh;    
-        
-        if (h >= 12) {
-          h = hh - 12;
-          dd = "PM";
-        }
-    
-        if (h === 0) {
-          h = 12;
-        }
-    
-        if (m < 10) {
-          mm = `0${m}`;
-        } else {
-          mm = String(m);
-        }
-           return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()} ${h}:${mm} ${dd}`;
-      }
+    formatDate(id: string) {
+      return store.getters.getFormattedDate(id)
     }
+      
+  }
 });
 </script>

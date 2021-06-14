@@ -90,10 +90,38 @@ export default new Vuex.Store({
  
   },
   getters: {
-    getOneRequest: (state) => (id: string) => {
+    getOneLead: (state) => (id: string) => {
       return state.unassignedArray.filter(obj => {
         return obj.LeadID === id
       })[0]
+    },
+
+    getFormattedDate: (state) => (id: string) => {
+      const lead = state.unassignedArray.filter(obj => {
+        return obj.LeadID === id
+      })[0]
+      const d = new Date(Date.parse(lead.Created))
+      const hh: number = d.getHours();
+        const m: number = d.getMinutes();
+        let dd = "AM";
+        let mm = "";
+        let h: number = hh;    
+        
+        if (h >= 12) {
+          h = hh - 12;
+          dd = "PM";
+        }
+    
+        if (h === 0) {
+          h = 12;
+        }
+    
+        if (m < 10) {
+          mm = `0${m}`;
+        } else {
+          mm = String(m);
+        }
+           return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()} ${h}:${mm} ${dd}`;
     }
   },
   mutations: {

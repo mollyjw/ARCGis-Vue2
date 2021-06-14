@@ -1,6 +1,6 @@
 <template>
   <div>
-  <h1 color="titleText" style="text-align:center; padding: 2%"> Unassigned Requests </h1>
+  <h1 color="titleText" style="text-align:center; padding: 2%"> Unassigned Leads </h1>
   <unassigned />
   </div>
 

@@ -1,20 +1,21 @@
 <template>
   <v-app-bar app color="header" prominent>
+    <router-link to="/">
     <img
     v-if="$vuetify.theme.dark === false"
       alt="WW Logo"
       src="../assets/ScoutLogo.png"
-      style="max-height: 90%; max-width: 40%"
+      style="max-height: 90%; max-width: 30%"
     />
     <img
     v-if="$vuetify.theme.dark"
       alt="WW Logo"
       src="../assets/scoutwhite.png"
-      style="max-height: 90%; max-width: 40%"
+      style="max-height: 90%; max-width: 30%"
     />
+    </router-link>
     <v-spacer></v-spacer>
-   
-
+  
         <v-checkbox
           class="pt-10 pr-2"
           x-large
@@ -39,10 +40,6 @@ export default Vue.extend({
     };
   },
   methods: {
-    toggleDarkMode() {
-      store.dispatch("toggleDark");
-      console.log("toggling");
-    },
   },
 });
 </script>
