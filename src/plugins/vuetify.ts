@@ -13,6 +13,7 @@ export default new Vuetify({
                 header: colors.yellow.darken1,
                 button: colors.yellow.lighten1,
                 background: colors.yellow.lighten5,
+                navbarText: colors.shades.black,
                 titleText: colors.shades.black,
                 cardText: colors.shades.white,
             },
@@ -21,6 +22,7 @@ export default new Vuetify({
                 header: colors.indigo.darken3,
                 button: colors.indigo.lighten1,
                 background: colors.grey.darken4,
+                navbarText: colors.shades.black,
                 titleText: colors.shades.black,
                 cardText: colors.shades.black
             }

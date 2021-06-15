@@ -1,3 +1,4 @@
+import Lead from '@/models/lead'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -6,9 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     
-    leadsArray: [],
-    assignedArray: [],
-    unassignedArray: [
+    allLeadsArray: [
       {
         "LeadID": "1",
         "Retailer": "0",
@@ -73,6 +72,8 @@ export default new Vuex.Store({
         "Processed": null
       },
     ],
+    
+    leadStatusArray: [],
     dealers: [
       { 
         dealerId: 1,
@@ -91,16 +92,21 @@ export default new Vuex.Store({
   },
   getters: {
     getOneLead: (state) => (id: string) => {
-      return state.unassignedArray.filter(obj => {
+      return state.allLeadsArray.filter(obj => {
         return obj.LeadID === id
       })[0]
     },
 
-    getFormattedDate: (state) => (id: string) => {
-      const lead = state.unassignedArray.filter(obj => {
-        return obj.LeadID === id
-      })[0]
-      const d = new Date(Date.parse(lead.Created))
+    getUnprocessedLeads: state => {
+      return state.allLeadsArray.filter(x => x.Processed == null)
+    },
+
+    getProcessedLeads: state => {
+      return state.allLeadsArray.filter(x => x.Processed != null)
+    },
+
+    getFormattedDate: (state) => (date: string) => {
+      const d = new Date(Date.parse(date))
       const hh: number = d.getHours();
         const m: number = d.getMinutes();
         let dd = "AM";
@@ -125,10 +131,41 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-  
+    // getLeadsFromDB(state, leads) {
+    //   state.allLeadsArray = leads
+    // },
+    
+    markAsProcessed(state, payload) {
+      const leadToUpdate = state.allLeadsArray.filter(obj => {
+        return obj.LeadID === payload.id
+      })[0];
+      leadToUpdate.Processed = payload.clickTime;
+    },
+
+    markAsUnprocessed(state, lead) {
+      const leadToUpdate = state.allLeadsArray.filter(obj => {
+        return obj.LeadID === lead.LeadID
+      })[0];
+      leadToUpdate.Processed = null;
+    }
   },
   actions: {
-    
+    // getLeadsFromDB({commit}) {
+    //   axios.get(URL)
+    //   .then(response => {
+    //     commit('getAllLeads', response.data)
+    //   })
+    // }
+
+    markLeadProcessed({commit}, payload) {
+      //some API call
+      commit('markAsProcessed', payload)
+    },
+
+    markLeadUnprocessed({commit}, lead) {
+      //some API call
+      commit('markAsUnprocessed', lead)
+    }
   },
   modules: {
   }

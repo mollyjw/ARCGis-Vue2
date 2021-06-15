@@ -1,53 +1,53 @@
 <template>
-  <v-container>
+  <v-container style="margin-bottom: 2%">
     <v-row class="justify-center">
-      <h1 style="text-align:center; padding: 2%">Lead Details</h1>
+      <h1 style="text-align: center; padding: 2%">Lead Details</h1>
     </v-row>
     <v-row>
       <v-col cols="6">
         <v-card
           color="card"
           height="100%"
-          style="margin-left: 4%; margin-right: 2%; color: white"
+          style="
+            margin-left: 4%;
+            margin-right: 2%;
+            color: white;
+            padding-left: 2%;
+          "
         >
           <v-container style="font-size: 1.5rem">
-            <v-row class="justify-center align-center" style="font-size: 2rem">
+            <v-row
+              class="justify-center align-center"
+              style="font-size: 2rem; padding-top: 12px"
+            >
               {{ lead.FirstName + " " + lead.LastName }}</v-row
             >
             <v-row
               class="justify-center align-center"
               v-if="lead.ContactBusinessName != null"
             >
-              from 
+              from
               {{ lead.ContactBusinessName }}</v-row
             >
             <v-row class="justify-center align-center">
-               wants to 
+              wants to
               {{ lead.Retailer == 0 ? "Find a Dealer" : "Become a Dealer" }}
             </v-row>
 
             <v-row class="justify-center align-center">
               <v-col> Distribution Area:</v-col>
-              <v-col >
+              <v-col>
                 {{ lead.DistributionArea == 0 ? "Not in Area" : "Within Area" }}
               </v-col>
             </v-row>
-            <v-row>
-              <v-col> County: </v-col>
-              <v-col >
-                {{ lead.County }} County, {{ lead.State }}</v-col
-              >
-            </v-row>
+
             <v-row>
               <v-col> Address:</v-col>
-              <v-col style="margin-left: 3%;">
-                <v-row >
-                  {{ lead.StreetAddress }}</v-row
-                >
-                <v-row >
-                  {{ lead.City }}, {{ lead.State }}
-                </v-row>
-                <v-row > {{ lead.Zip }} </v-row>
+              <v-col style="margin-left: 3%">
+                <v-row> {{ lead.StreetAddress }}</v-row>
+                <v-row> {{ lead.City }}, {{ lead.State }} </v-row>
+                <v-row> {{ lead.Zip }} </v-row>
+                <v-row> {{ lead.Country }}</v-row>
               </v-col>
             </v-row>
             <v-row>
@@ -86,7 +86,15 @@
             </v-row>
             <v-row>
               <v-col>Form Submitted on: </v-col>
-              <v-col>{{ formatDate(lead.LeadID) }}</v-col>
+              <v-col>{{ formatDate(lead.Created) }}</v-col>
+            </v-row>
+            <v-row>
+              <v-col> Processed: </v-col>
+              <v-col>
+                {{
+                  lead.Processed == null ? "No" : formatDate(lead.Processed)
+                }}</v-col
+              >
             </v-row>
           </v-container>
         </v-card>
@@ -108,12 +116,88 @@
               class="justify-center align-center"
             >
               <v-col cols="6">
-                <v-card
+                <v-btn
                   color="button"
-                  style="margin: 2%; padding-top:2%; padding-bottom: 2%"
-                >
-                  {{ dealer.dealerName }}
-                </v-card>
+                  x-large
+                  block
+                >{{dealer.dealerName}}
+                </v-btn>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col style="text-align: center">
+                <v-dialog v-model="processDialog" persistent max-width="400">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      color="button"
+                      x-large
+                      :disabled="lead.Processed != null"
+                    >
+                      Mark as Processed
+                    </v-btn>
+                  </template>
+                  <v-card>
+                    <v-card-title class="text-h5">
+                      Mark this lead as processed?
+                    </v-card-title>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="green darken-1"
+                        text
+                        @click="(processDialog = false), processLead()"
+                      >
+                        Yes
+                      </v-btn>
+                      <v-btn
+                        color="green darken-1"
+                        text
+                        @click="processDialog = false"
+                      >
+                        No
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
+              </v-col>
+              <v-col style="text-align: center">
+                <v-dialog v-model="unprocessDialog" persistent max-width="400">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      color="button"
+                      x-large
+                      :disabled="lead.Processed == null"
+                    >
+                      Mark as Unprocessed</v-btn
+                    >
+                  </template>
+                  <v-card>
+                    <v-card-title class="text-h5">
+                      Mark this lead as un-processed?
+                    </v-card-title>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        color="green darken-1"
+                        text
+                        @click="(unprocessDialog = false), unprocessLead()"
+                      >
+                        Yes
+                      </v-btn>
+                      <v-btn
+                        color="green darken-1"
+                        text
+                        @click="unprocessDialog = false"
+                      >
+                        No
+                      </v-btn>
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </v-col>
             </v-row>
           </v-container>
@@ -124,14 +208,17 @@
 </template>
 
 <script lang="ts">
+import Lead from "@/models/lead";
 import store from "@/store";
 import Vue from "vue";
 
 export default Vue.extend({
   name: "LeadDetails",
-  data: function() {
+  data: function () {
     return {
-      id: "null",
+      id: this.$route.params.id,
+      processDialog: false,
+      unprocessDialog: false,
     };
   },
   computed: {
@@ -145,8 +232,18 @@ export default Vue.extend({
   },
 
   methods: {
-    formatDate(id: string) {
-      return store.getters.getFormattedDate(id);
+    formatDate(date: string) {
+      return store.getters.getFormattedDate(date);
+    },
+
+    processLead() {
+      const d: Date = new Date();
+      const clickTime: string = d.toISOString();
+      console.log(clickTime, this.lead);
+      store.dispatch("markLeadProcessed", {id: this.lead.LeadID, datetime: clickTime});
+    },
+    unprocessLead() {
+      store.dispatch("markLeadUnprocessed", this.lead);
     },
   },
 

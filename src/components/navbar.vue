@@ -15,16 +15,44 @@
     />
     </router-link>
     <v-spacer></v-spacer>
-  
-        <v-checkbox
-          class="pt-10 pr-2"
-          x-large
-          v-model="$vuetify.theme.dark"
-          color="white"
-          off-icon="mdi-theme-light-dark"
-          on-icon="mdi-theme-light-dark"
-        ></v-checkbox>
+      <v-menu
+            style="margin-top: 2%; margin-right: 1%"
+            bottom
+            left
+          >
+            <template v-slot:activator="{ on, attrs }"  >
+              <v-btn
+                style="margin-top: 2%; margin-right: 1%"
+                icon
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon >mdi-menu</v-icon>
+              </v-btn>
+            </template>
 
+            <v-list>
+              <v-list-item>
+                <router-link to="/assigned" style="text-decoration:none">
+                <v-list-item-title>Previously Assigned</v-list-item-title>
+                </router-link>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title>Stuff</v-list-item-title>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-title>Stuff</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+      <v-checkbox
+        style="margin-top: 2.5%; margin-right: 1%"
+        x-large
+        v-model="$vuetify.theme.dark"
+        color="white"
+        off-icon="mdi-theme-light-dark"
+        on-icon="mdi-theme-light-dark"
+      ></v-checkbox>
   </v-app-bar>
 </template>
 
