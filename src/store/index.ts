@@ -9,7 +9,7 @@ export default new Vuex.Store({
     
     allLeadsArray: [
       {
-        "LeadID": "1",
+        "LeadID": 1,
         "Retailer": "0",
         "FirstName": "Grey",
         "LastName": "Ruessler",
@@ -30,7 +30,7 @@ export default new Vuex.Store({
         "Processed": null
       },
       {
-        "LeadID": "4",
+        "LeadID": 4,
         "Retailer": "0",
         "FirstName": "Woody",
         "LastName": "Forrest",
@@ -51,7 +51,7 @@ export default new Vuex.Store({
         "Processed": null
       },
       {
-        "LeadID": "15",
+        "LeadID": 15,
         "Retailer": "1",
         "FirstName": "fdasf",
         "LastName": "fa",
@@ -73,26 +73,66 @@ export default new Vuex.Store({
       },
     ],
     
-    leadStatusArray: [],
+    leadStatusArray: [
+      {
+        "LeadStatusID": 1,
+        "LeadID": 1,
+        "Salesperson": null,
+        "LeadClaimedBySalesperson": null,
+        "Notes": null,
+        "DateAssigned": null,
+        "DateClaimed": null
+      },
+      {
+        "LeadStatusID": 2,
+        "LeadID": 4,
+        "Salesperson": null,
+        "LeadClaimedBySalesperson": null,
+        "Notes": null,
+        "DateAssigned": null,
+        "DateClaimed": null
+      },
+      {
+        "LeadStatusID": 3,
+        "LeadID": 15,
+        "Salesperson": null,
+        "LeadClaimedBySalesperson": null,
+        "Notes": null,
+        "DateAssigned": null,
+        "DateClaimed": null
+      }
+    ],
     dealers: [
       { 
         dealerId: 1,
-        dealerName: "Forrest Gump"
+        dealerName: "Forrest Gump",
+        location: 63845,
+        email: "gump@shrimp.com"
       },
       {
         dealerId: 2,
-        dealerName: "C. Abe Net"
+        dealerName: "C. Abe Net",
+        location: 63701,
+        email: "honestabe@gmail.com"
       },
       {
         dealerId: 3,
-        dealerName: "Josh"
+        dealerName: "Josh",
+        location: 63755,
+        email: "imjosh@gmail.com"
       }
     ]
  
   },
   getters: {
-    getOneLead: (state) => (id: string) => {
+    getOneLead: (state) => (id: number) => {
       return state.allLeadsArray.filter(obj => {
+        return obj.LeadID === id
+      })[0]
+    },
+
+    getOneLeadStatus: (state) => (id: number) => {
+      return state.leadStatusArray.filter(obj => {
         return obj.LeadID === id
       })[0]
     },
@@ -128,6 +168,16 @@ export default new Vuex.Store({
           mm = String(m);
         }
            return `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()} ${h}:${mm} ${dd}`;
+    },
+
+    getDealers: (state) => {
+      return state.dealers
+      const dealerNames: string[] = []
+      state.dealers.forEach(d => {
+        dealerNames.push(d.dealerName)
+      });
+      console.log(dealerNames)
+      return dealerNames
     }
   },
   mutations: {
@@ -147,13 +197,22 @@ export default new Vuex.Store({
         return obj.LeadID === lead.LeadID
       })[0];
       leadToUpdate.Processed = null;
+    },
+
+    assignLead(state, payload) {
+      const statusToUpdate = state.leadStatusArray.filter(obj => {
+        return obj.LeadID === payload.id
+      })[0];
+      statusToUpdate.Salesperson = payload.salesperson
+      statusToUpdate.DateAssigned = payload.clickDate
+      statusToUpdate.Notes = payload.notes
     }
   },
   actions: {
     // getLeadsFromDB({commit}) {
     //   axios.get(URL)
     //   .then(response => {
-    //     commit('getAllLeads', response.data)
+    //     commit('getLeadsFromDB', response.data)
     //   })
     // }
 
@@ -165,6 +224,11 @@ export default new Vuex.Store({
     markLeadUnprocessed({commit}, lead) {
       //some API call
       commit('markAsUnprocessed', lead)
+    },
+
+    assignLead({commit}, payload) {
+      //some API call
+      commit('assignLead', payload)
     }
   },
   modules: {

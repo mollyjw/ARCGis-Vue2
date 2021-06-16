@@ -100,115 +100,16 @@
         </v-card>
       </v-col>
       <v-col cols="6">
-        <v-card
-          color="card"
-          height="100%"
-          style="margin-left: 2%; margin-right: 4%"
-        >
-          <v-container>
-            <v-row style="font-size: 2rem; color: white; text-align: center">
-              <v-col>Nearby Dealers </v-col>
-            </v-row>
-            <v-row
-              v-for="dealer in dealers"
-              v-bind:key="dealer.dealerId"
-              style="font-size: 1.5rem; text-align: center"
-              class="justify-center align-center"
-            >
-              <v-col cols="6">
-                <v-btn
-                  color="button"
-                  x-large
-                  block
-                >{{dealer.dealerName}}
-                </v-btn>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col style="text-align: center">
-                <v-dialog v-model="processDialog" persistent max-width="400">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      v-bind="attrs"
-                      v-on="on"
-                      color="button"
-                      x-large
-                      :disabled="lead.Processed != null"
-                    >
-                      Mark as Processed
-                    </v-btn>
-                  </template>
-                  <v-card>
-                    <v-card-title class="text-h5">
-                      Mark this lead as processed?
-                    </v-card-title>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="green darken-1"
-                        text
-                        @click="(processDialog = false), processLead()"
-                      >
-                        Yes
-                      </v-btn>
-                      <v-btn
-                        color="green darken-1"
-                        text
-                        @click="processDialog = false"
-                      >
-                        No
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-col>
-              <v-col style="text-align: center">
-                <v-dialog v-model="unprocessDialog" persistent max-width="400">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      v-bind="attrs"
-                      v-on="on"
-                      color="button"
-                      x-large
-                      :disabled="lead.Processed == null"
-                    >
-                      Mark as Unprocessed</v-btn
-                    >
-                  </template>
-                  <v-card>
-                    <v-card-title class="text-h5">
-                      Mark this lead as un-processed?
-                    </v-card-title>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="green darken-1"
-                        text
-                        @click="(unprocessDialog = false), unprocessLead()"
-                      >
-                        Yes
-                      </v-btn>
-                      <v-btn
-                        color="green darken-1"
-                        text
-                        @click="unprocessDialog = false"
-                      >
-                        No
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card>
+        <edit-assignment v-if="lead.Processed == null" />
+        <current-assignment v-if="lead.Processed != null" />
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script lang="ts">
-import Lead from "@/models/lead";
+import EditAssignment from "@/components/edit-assignment.vue";
+import CurrentAssignment from "@/components/current-assignment.vue"
 import store from "@/store";
 import Vue from "vue";
 
@@ -239,12 +140,17 @@ export default Vue.extend({
     processLead() {
       const d: Date = new Date();
       const clickTime: string = d.toISOString();
-      console.log(clickTime, this.lead);
-      store.dispatch("markLeadProcessed", {id: this.lead.LeadID, datetime: clickTime});
+      // console.log(clickTime, this.lead);
+      store.dispatch("markLeadProcessed", {id: this.lead.LeadID, clickTime: clickTime});
     },
     unprocessLead() {
       store.dispatch("markLeadUnprocessed", this.lead);
     },
+  },
+
+  components: {
+    EditAssignment,
+    CurrentAssignment
   },
 
   mounted() {
