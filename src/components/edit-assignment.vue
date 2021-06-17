@@ -51,7 +51,7 @@
                   >
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green " v-on:click="assignLead(), (processDialog = false)">
+                    <v-btn color="green" v-on:click="assignLead(), (processDialog = false)">
                       Yes
                     </v-btn>
                     <v-btn color="red" v-on:click="processDialog = false"> 

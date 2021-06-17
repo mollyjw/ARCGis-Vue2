@@ -29,7 +29,7 @@
           </v-col>
       </v-row>
       <v-row>
-          <v-col> 
+          <v-col style="text-align: center"> 
               <v-btn color="button">Edit Assignment</v-btn>
           </v-col>
       </v-row>
