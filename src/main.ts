@@ -3,7 +3,7 @@ import App from './App.vue'
 import vuetify from './plugins/vuetify'
 import esriConfig from '@arcgis/core/config';
 
-esriConfig.assetsPath = 'https://js.arcgis.com/4.24/@arcgis/core/assets';
+esriConfig.assetsPath = '../assets';
 
 Vue.config.productionTip = false
 
