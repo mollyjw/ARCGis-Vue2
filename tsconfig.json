@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "ES2020",
+    "module": "ES2020",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -20,6 +21,8 @@
       ]
     },
     "lib": [
+      "ES2020",
+      "DOM",
       "esnext",
       "dom",
       "dom.iterable",
@@ -27,6 +30,7 @@
     ]
   },
   "include": [
+    "./src",
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",

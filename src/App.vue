@@ -1,27 +1,34 @@
 <template>
   <v-app>
-    <v-sheet color="background" height="100%" width="100%">
-      <navbar />
-      <v-main>
-        <router-view />
-      </v-main>
-    </v-sheet>
+    <div class="mapdiv"></div>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import Navbar from "./components/navbar.vue";
+import Map from "@arcgis/core/Map";
+import MapView from "@arcgis/core/views/MapView";
+import Bookmarks from "@arcgis/core/widgets/Bookmarks";
+import Expand from "@arcgis/core/widgets/Expand";
 
 export default Vue.extend({
   name: "App",
+   async mounted() {
+       const map = new Map({
+         basemap: "streets-vector"
+       });
 
-  components: {
-    Navbar,
-  },
+       const view = new MapView({
+         map: map,
+         container: "mapdiv",
+         center: [-118.244, 34.052],
+         zoom: 12
+       });
 
-  data: () => ({
-    //
-  }),
+     },
 });
 </script>
+
+<style scoped>
+  @import './main.css';
+</style>
